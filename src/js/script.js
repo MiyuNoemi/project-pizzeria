@@ -55,9 +55,24 @@
   class Product {
     constructor(id, data) {
       const thisProduct = this;
+
       thisProduct.id = id;
       thisProduct.data = data;
+
+      thisProduct.renderInMenu();
+
       console.log('new Product:', thisProduct);
+    }
+    renderInMenu() {
+      const thisProduct = this;
+      /*Wygenerowanie kodu html pojedynczego produktu*/
+      const generatedHTML = templates.menuProduct(thisProduct.data);
+      /*stworzenie element DOM na podstawie kodu produktu */
+      thisProduct.element = utils.createDOMFromHTML(generatedHTML);
+      /*znalezienie na stronie kontener menu*/
+      const menuContainer = document.querySelector(select.containerOf.menu);
+      /*wstawić stworzony element DOM do znalezionego kontenera menu*/
+      menuContainer.appendChild(thisProduct.element);
     }
   }
 
