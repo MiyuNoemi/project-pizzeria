@@ -58,8 +58,10 @@
 
       thisProduct.id = id;
       thisProduct.data = data;
+      thisProduct.renderInMenu();
+      thisProduct.initAccordion();
 
-      console.log('new Product:', thisProduct);
+      // console.log('new Product:', thisProduct);
     }
     renderInMenu() {
       const thisProduct = this;
@@ -84,8 +86,8 @@
         /* toggle active class on element of thisProduct */
         thisProduct.element.classList.add('active');
         /* find all active products */
-        const activeProducts = document.querySelectorAll('active');
-        console.log(activeProducts);
+        const activeProducts = document.querySelectorAll('.product.active');
+        // console.log(activeProducts);
         /* START LOOP: for each active product */
         for (let activeProduct of activeProducts) {
           /* START: if the active product isn't the element of thisProduct */
@@ -104,7 +106,7 @@
   const app = {
     initMenu: function () {
       const thisApp = this;
-      console.log('thisApp.data:', thisApp.data);
+      // console.log('thisApp.data:', thisApp.data);
       for (let productData in thisApp.data.products) {
         new Product(productData, thisApp.data.products[productData]);
       }
@@ -122,8 +124,8 @@
       console.log('settings:', settings);
       console.log('templates:', templates);
 
+      thisApp.initData();
       thisApp.initMenu();
-      thisApp.dataSource();
     },
   };
 
