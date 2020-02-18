@@ -135,6 +135,35 @@
     processOrder() {
       const thisProduct = this;
       console.log(thisProduct);
+
+      const form = utils.serializeFormToObject(thisProduct.form);
+      let basePrice = thisProduct.data.price;
+      const choices = thisProduct.data.params;
+
+      /* przechodzimy po wyborach */
+      for (let choice in choices) {
+        const options = choices[choice].options;
+        // console.log('Jestem aktalnie w ', choice);
+
+        /* pechodzimy po opcjach */
+        for (let option in options) {
+
+          console.log(choice, form[choice]);
+          const optionVal = options[option];
+          const optionSelected = form[choice].includes(option);
+
+          if (optionSelected && !optionVal.default) {
+            basePrice += optionVal.price;
+          }
+
+          if (!optionSelected && optionVal.default) {
+            basePrice -= optionVal.price;
+          }
+
+        }
+      }
+
+      thisProduct.priceElem.innerHTML = basePrice;
     }
   }
 
