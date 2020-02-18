@@ -62,7 +62,7 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
-      thisProduct.initAmountWidget(event);
+      thisProduct.initAmountWidget();
       thisProduct.processOrder();
       // console.log('new Product:', thisProduct);
     }
@@ -90,14 +90,14 @@
     initAccordion() {
       const thisProduct = this;
       /* find the clickable trigger (the element that should react to clicking) */
-      const trigger = thisProduct.element.querySelector(select.menuProduct.clickable);
+      const trigger = thisProduct.accordionTrigger;
       // console.log(trigger);
       // /* START: click event listener to trigger */
       trigger.addEventListener('click', function () {
         /* prevent default action for event */
         event.preventDefault();
         /* toggle active class on element of thisProduct */
-        thisProduct.element.classList.add('active');
+        thisProduct.element.classList.toggle(classNames.menuProduct.wrapperActive);
         /* find all active products */
         const activeProducts = document.querySelectorAll('.product.active');
         // console.log(activeProducts);
@@ -168,16 +168,20 @@
           }
         }
       }
-
       /* pomnożyć cenę przez kwotę */
-      basePrice *= thisProduct.amountWidget.volue;
 
-      thisProduct.priceElem.innerHTML = basePrice;
+      thisProduct.priceSingle = basePrice;
+      thisProduct.price = thisProduct.priceSingle * thisProduct.amountWidget.value;
+
+
+      thisProduct.priceElem.innerHTML = thisProduct.price;
+      //console.log('paramy:',thisProduct.params);
+
     }
     initAmountWidget() {
       const thisProduct = this;
       thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
-      thisProduct.amountWidgetElem.addEventListener('update', function () {
+      thisProduct.amountWidgetElem.addEventListener('Update', function () {
         thisProduct.processOrder();
       });
     }
@@ -189,8 +193,9 @@
       thisWidget.getElements(element);
       thisWidget.value = settings.amountWidget.defaultValue;
       thisWidget.setValue(thisWidget.input.value);
-      console.log('amount widget:', thisWidget);
-      console.log('constructor arguments:', element);
+      thisWidget.initActions();
+      // console.log('amount widget:', thisWidget);
+      // console.log('constructor arguments:', element);
     }
     getElements(element) {
       const thisWidget = this;
