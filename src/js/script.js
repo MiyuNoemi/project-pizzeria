@@ -159,7 +159,11 @@
           if (!optionSelected && optionVal.default) {
             basePrice -= optionVal.price;
           }
-
+          const imageForChoiceAndOption = thisProduct.element.querySelector(`.${choice}-${option}`);
+          if (imageForChoiceAndOption) {
+            if (optionSelected) imageForChoiceAndOption.classList.add('active');
+            else imageForChoiceAndOption.classList.remove('active');
+          }
         }
       }
 
