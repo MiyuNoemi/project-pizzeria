@@ -62,7 +62,8 @@
       thisProduct.getElements();
       thisProduct.initAccordion();
       thisProduct.initOrderForm();
-      // thisProduct.processOrder();
+      thisProduct.initAmountWidget(event);
+      thisProduct.processOrder();
       // console.log('new Product:', thisProduct);
     }
     renderInMenu() {
@@ -84,6 +85,7 @@
       thisProduct.formInputs = thisProduct.form.querySelectorAll(select.all.formInputs);
       thisProduct.cartButton = thisProduct.element.querySelector(select.menuProduct.cartButton);
       thisProduct.priceElem = thisProduct.element.querySelector(select.menuProduct.priceElem);
+      thisProduct.amountWidgetElem = thisProduct.element.querySelector(select.menuProduct.amountWidget);
     }
     initAccordion() {
       const thisProduct = this;
@@ -114,7 +116,7 @@
     }
     initOrderForm() {
       const thisProduct = this;
-      console.log(thisProduct);
+      // console.log(thisProduct);
       thisProduct.form.addEventListener('submit', function (event) {
         event.preventDefault();
         thisProduct.processOrder();
@@ -134,7 +136,7 @@
 
     processOrder() {
       const thisProduct = this;
-      console.log(thisProduct);
+      // console.log(thisProduct);
 
       const form = utils.serializeFormToObject(thisProduct.form);
       let basePrice = thisProduct.data.price;
@@ -148,7 +150,7 @@
         /* pechodzimy po opcjach */
         for (let option in options) {
 
-          console.log(choice, form[choice]);
+          // console.log(choice, form[choice]);
           const optionVal = options[option];
           const optionSelected = form[choice].includes(option);
 
@@ -167,7 +169,70 @@
         }
       }
 
+      /* pomnożyć cenę przez kwotę */
+      basePrice *= thisProduct.amountWidget.volue;
+
       thisProduct.priceElem.innerHTML = basePrice;
+    }
+    initAmountWidget() {
+      const thisProduct = this;
+      thisProduct.amountWidget = new AmountWidget(thisProduct.amountWidgetElem);
+      thisProduct.amountWidgetElem.addEventListener('update', function () {
+        thisProduct.processOrder();
+      });
+    }
+  }
+
+  class AmountWidget {
+    constructor(element) {
+      const thisWidget = this;
+      thisWidget.getElements(element);
+      thisWidget.value = settings.amountWidget.defaultValue;
+      thisWidget.setValue(thisWidget.input.value);
+      console.log('amount widget:', thisWidget);
+      console.log('constructor arguments:', element);
+    }
+    getElements(element) {
+      const thisWidget = this;
+
+      thisWidget.element = element;
+      thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
+      thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
+      thisWidget.linkIncrease = thisWidget.element.querySelector(select.widgets.amount.linkIncrease);
+    }
+    setValue(value) {
+      const thisWidget = this;
+
+      const newValue = parseInt(value);
+      /* TODO: Add validation */
+      if ((newValue >= settings.amountWidget.defaultMin) && (newValue <= settings.amountWidget.defaultMax) && (newValue !== thisWidget.value)) {
+        thisWidget.value = newValue;
+        thisWidget.announce();
+      }
+      thisWidget.input.value = thisWidget.value;
+    }
+    initActions() {
+      const thisWidget = this;
+      console.log(thisWidget);
+      thisWidget.input.addEventListener('change', function () {
+        thisWidget.setValue(thisWidget.input.value);
+      });
+      thisWidget.linkDecrease.addEventListener('click', function (event) {
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value - 1);
+      });
+
+      thisWidget.linkIncrease.addEventListener('click', function (event) {
+        event.preventDefault();
+        thisWidget.setValue(thisWidget.value + 1);
+      });
+    }
+
+    announce() {
+      const thisWidget = this;
+
+      const event = new Event('Updated');
+      thisWidget.element.dispatchEvent(event);
     }
   }
 
