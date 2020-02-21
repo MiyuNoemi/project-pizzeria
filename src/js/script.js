@@ -171,7 +171,7 @@
 
     processOrder() {
       const thisProduct = this;
-      // console.log(thisProduct);
+      console.log(thisProduct);
 
       const form = utils.serializeFormToObject(thisProduct.form);
       let basePrice = thisProduct.data.price;
@@ -291,7 +291,7 @@
       thisCart.products = [];
       thisCart.getElements(element);
       thisCart.initActions();
-      thisCart.add();
+      // thisCart.add();
       // console.log('New Cart', thisCart);
     }
     getElements(element) {
@@ -300,7 +300,7 @@
       thisCart.dom.wrapper = element;
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
-      console.log(thisCart.dom.toggleTrigger);
+      // console.log(thisCart.dom.toggleTrigger);
     }
     initActions() {
       const thisCart = this;
@@ -313,7 +313,7 @@
       const generatedHTML = templates.cartProduct(menuProduct);
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
       thisCart.dom.productList.appendChild(generatedDOM);
-      console.log('adding product', menuProduct);
+      // console.log('adding product', menuProduct);
     }
   }
 
