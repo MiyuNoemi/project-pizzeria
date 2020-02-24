@@ -85,6 +85,8 @@
     cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
     // CODE ADDED END
   };
+  utils.convertDataSourceToDbJson();
+  console.log(utils);
 
   class Product {
     constructor(id, data) {
