@@ -90,8 +90,6 @@
     cartProduct: Handlebars.compile(document.querySelector(select.templateOf.cartProduct).innerHTML),
     // CODE ADDED END
   };
-  utils.convertDataSourceToDbJson();
-  console.log(utils);
 
   class Product {
     constructor(id, data) {
@@ -192,6 +190,13 @@
         // console.log('Jestem aktualnie w ', choice);
         // console.log('options: ', options);
 
+        thisProduct.params[choice] = {
+          label: choices[choice].label,
+          options: {},
+        };
+
+        console.log('Przed przejsciem przez opcje', thisProduct.params[choice]);
+
         /* pechodzimy po opcjach */
         for (let option in options) {
           // console.log('option: ',option);
@@ -211,13 +216,10 @@
 
           if (optionSelected) {
 
-            if (!thisProduct.params[choice]) {
-              thisProduct.params[choice] = {
-                label: options.label,
-                options: {},
-              };
-              thisProduct.params[choice].options[option] = option.label;
-            }
+            console.log(thisProduct.params[choice]);
+
+            thisProduct.params[choice].options[option] = optionVal.label;
+
             for (let image of imageForChoiceAndOption) {
               image.classList.add('active');
             }
@@ -252,9 +254,17 @@
       console.log(thisProduct.name);
       thisProduct.amount = thisProduct.amountWidget.value;
 
+      const productSummary = {
+        name: thisProduct.data.name,
+        price: thisProduct.price,
+        amount: thisProduct.amount,
+        params: thisProduct.params
+      };
+
+      console.log(thisProduct.params, Object.values(thisProduct.params).join());
 
 
-      app.cart.add(thisProduct);
+      app.cart.add(productSummary);
     }
   }
 
@@ -352,6 +362,7 @@
     }
     add(menuProduct) {
       const thisCart = this;
+      console.log(menuProduct);
       const generatedHTML = templates.cartProduct(menuProduct);
       const generatedDOM = utils.createDOMFromHTML(generatedHTML);
       thisCart.dom.productList.appendChild(generatedDOM);
@@ -464,8 +475,7 @@
     initData: function () {
       const thisApp = this;
 
-      thisApp.data = {};
-      const url = settings.db.url + '/' + settings.db.product;
+      thisApp.data = dataSource;
     },
     initCart: function () {
       const thisApp = this;
