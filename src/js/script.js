@@ -76,6 +76,11 @@
     cart: {
       defaultDeliveryFee: 20,
     },
+    db: {
+      url: '//localhost:3131',
+      product: 'product',
+      order: 'order',
+    },
     // CODE ADDED END
   };
 
@@ -246,6 +251,9 @@
       thisProduct.name = thisProduct.data.name;
       console.log(thisProduct.name);
       thisProduct.amount = thisProduct.amountWidget.value;
+
+
+
       app.cart.add(thisProduct);
     }
   }
@@ -456,7 +464,8 @@
     initData: function () {
       const thisApp = this;
 
-      thisApp.data = dataSource;
+      thisApp.data = {};
+      const url = settings.db.url + '/' + settings.db.product;
     },
     initCart: function () {
       const thisApp = this;
