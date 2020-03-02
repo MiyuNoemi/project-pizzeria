@@ -230,7 +230,7 @@
           }
         }
       }
-      //console.log(thisProduct.params);
+      // console.log(thisProduct.params);
       /* pomnożyć cenę przez kwotę */
 
       thisProduct.priceSingle = basePrice;
@@ -238,7 +238,7 @@
 
 
       thisProduct.priceElem.innerHTML = thisProduct.price;
-      //console.log('paramy:',thisProduct.params);
+      // console.log('paramy:', thisProduct.params);
 
     }
     initAmountWidget() {
@@ -255,14 +255,13 @@
       thisProduct.amount = thisProduct.amountWidget.value;
 
       const productSummary = {
+        id: thisProduct.id,
+        priceSingle: thisProduct.priceSingle,
         name: thisProduct.data.name,
         price: thisProduct.price,
         amount: thisProduct.amount,
         params: thisProduct.params
       };
-
-      console.log(thisProduct.params, Object.values(thisProduct.params).join());
-
 
       app.cart.add(productSummary);
     }
@@ -381,6 +380,7 @@
       };
       for (let product of thisCart.products) {
         payload.products.push(product.getData());
+        console.log(product.getData);
       }
 
       const options = {
@@ -441,7 +441,7 @@
   class CartProduct {
     constructor(menuProduct, element) {
       const thisCartProduct = this;
-      thisCartProduct.id = menuProduct.id;
+      thisCartProduct.choice = menuProduct.choice;
       thisCartProduct.name = menuProduct.name;
       thisCartProduct.price = menuProduct.price;
       thisCartProduct.priceSingle = menuProduct.priceSingle;
@@ -450,7 +450,6 @@
       thisCartProduct.getElements(element);
       thisCartProduct.initAmountWidget();
       thisCartProduct.initActions();
-      // console.log(thisCartProduct);
     }
     getElements(element) {
       const thisCartProduct = this;
@@ -465,10 +464,10 @@
       const thisCartProduct = this;
       //console.log('odpala');
       thisCartProduct.amountWidget = new AmountWidget(thisCartProduct.dom.amountWidget);
-      //console.log(thisCartProduct.amountWidget);
-      // console.log(thisCartProduct.amountWidget.value);
-      // console.log(thisCartProduct.priceSingle);
-      // console.log(thisCartProduct.priceSingle * thisCartProduct.amount);
+      console.log(thisCartProduct.amountWidget);
+      console.log(thisCartProduct.amountWidget.value);
+      console.log(thisCartProduct.priceSingle);
+      console.log(thisCartProduct.priceSingle * thisCartProduct.amount);
       thisCartProduct.dom.amountWidget.addEventListener('custom', function () {
         // console.log('ok!');
         thisCartProduct.amount = thisCartProduct.amountWidget.value;
