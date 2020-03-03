@@ -7,7 +7,7 @@ import {
 import {
   utils
 } from '../utils.js';
-import CartProduct from '.components/cartProduct.js';
+import CartProduct from '../components/cartProduct.js';
 
 
 class Cart {
