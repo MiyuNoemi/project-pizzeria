@@ -1,8 +1,8 @@
-{//+
-  "globals": {//+
-    "Handlebars": true,//+
-    "dataSource": true//+
-  },//+
+{ //+
+  "globals": { //+
+    "Handlebars": true, //+
+    "dataSource": true //+
+  }, //+
   "env": {
     "browser": true,
     "es6": true

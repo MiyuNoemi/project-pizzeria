@@ -170,7 +170,7 @@ class Product {
     console.log(thisProduct.name);
     thisProduct.amount = thisProduct.amountWidget.value;
 
-    const productSummary = { //???????????
+    const productSummary = {
       id: thisProduct.id,
       priceSingle: thisProduct.priceSingle,
       name: thisProduct.data.name,
@@ -183,10 +183,10 @@ class Product {
     const event = new CustomEvent('add-to-cart', {
       bubbles: true,
       detail: {
-        product: thisProduct,
+        product: productSummary,
       },
     });
-    thisProduct.element.dispachEvent(event);
+    thisProduct.element.dispatchEvent(event);
   }
 }
 
