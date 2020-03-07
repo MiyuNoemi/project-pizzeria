@@ -8,7 +8,7 @@ class AmountWidget {
     const thisWidget = this;
     thisWidget.getElements(element);
     thisWidget.value = settings.amountWidget.defaultValue;
-    thisWidget.setValue(thisWidget.input.value);
+    thisWidget.setValue(thisWidget.input.value || settings.amountWidget.defaultValue);
     thisWidget.initActions();
     // console.log('amount widget:', thisWidget);
     // console.log('constructor arguments:', element);
@@ -17,7 +17,7 @@ class AmountWidget {
     const thisWidget = this;
 
     thisWidget.element = element;
-    console.log(thisWidget.element);
+    // console.log(thisWidget.element);
     thisWidget.input = thisWidget.element.querySelector(select.widgets.amount.input);
     console.log(thisWidget.input);
     thisWidget.linkDecrease = thisWidget.element.querySelector(select.widgets.amount.linkDecrease);
@@ -28,11 +28,11 @@ class AmountWidget {
 
     const newValue = parseInt(value);
     /* TODO: Add validation */
-    if ((newValue >= settings.amountWidget.defaultMin) && (newValue <= settings.amountWidget.defaultMax) && (newValue !== thisWidget.value)) {
+    if (newValue != thisWidget.value && newValue >= settings.amountWidget.defaultMin && newValue <= settings.amountWidget.defaultMax) {
       thisWidget.value = newValue;
-      thisWidget.announce();
     }
     thisWidget.input.value = thisWidget.value;
+    thisWidget.announce();
   }
   initActions() {
     const thisWidget = this;

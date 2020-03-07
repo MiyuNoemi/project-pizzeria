@@ -2,10 +2,7 @@ import {
   select,
   templates
 } from '../settings.js';
-import {
-  utils
-} from '../utils.js';
-import AmountWidget from './amountWidget.js';
+import AmountWidget from './AmountWidget.js';
 
 class Booking {
   constructor(bookElem) {
@@ -13,16 +10,14 @@ class Booking {
     thisBooking.render(bookElem);
     thisBooking.initWidgets();
   }
-  render(bookElem) { //argument, który otrzymuje z app.initBooking
+  render(element) { //argument, który otrzymuje z app.initBooking
     const thisBooking = this;
-    console.log('book elem:', bookElem);
     const generatedHTML = templates.bookingWidget(); //generować kod HTML
     thisBooking.dom = {}; //pusty obiekt
-    thisBooking.dom.wrapper = bookElem; //zapisywać do tego obiektu właściwość wrapper z argu.
-    const generatedDOM = utils.createDOMFromHTML(generatedHTML); //zawartość wrappera zamieniać na kod HTML
-    thisBooking.dom.wrapper.appendChild(generatedDOM);
-    thisBooking.dom.peopleAmount = select.booking.peopleAmount;
-    thisBooking.dom.hoursAmount = select.booking.hoursAmount;
+    thisBooking.dom.wrapper = element;
+    thisBooking.dom.wrapper.innerHTML = generatedHTML;
+    thisBooking.dom.peopleAmount = thisBooking.dom.wrapper.querySelector(select.booking.peopleAmount);
+    thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount);
 
   }
   initWidgets() {
