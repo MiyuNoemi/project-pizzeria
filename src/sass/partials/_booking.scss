@@ -159,6 +159,7 @@
 
     &.booked {
       cursor: not-allowed;
+      pointer-events: none;
       color: lighten($color-dark, 40%);
 
       &::after {
@@ -173,6 +174,11 @@
       }
 
     }
+  }
+
+  .table-selected {
+    @extend .h2;
+    color: red;
   }
 
   [data-table="1"] {
