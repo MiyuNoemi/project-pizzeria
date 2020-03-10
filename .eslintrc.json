@@ -1,7 +1,9 @@
 { //+
   "globals": { //+
     "Handlebars": true, //+
-    "dataSource": true //+
+    "dataSource": true, //+
+    "flatpickr": true,
+    "rangeSlider": true
   }, //+
   "env": {
     "browser": true,
