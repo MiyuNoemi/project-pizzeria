@@ -18,7 +18,22 @@ class Booking {
     thisBooking.render(bookingWidget);
     thisBooking.initWidgets();
     thisBooking.getData();
+    thisBooking.addTableListeners();
   }
+
+  addTableListeners() {
+    const thisBooking = this;
+    for(let table of thisBooking.dom.tables) {
+      table.addEventListener('click', function(e) {
+        e.preventDefault();
+        const activeTable = thisBooking.dom.wrapper.querySelector(select.booking.activeTable);
+        if(activeTable) activeTable.classList.remove(classNames.booking.selected);
+        thisBooking.tableSelected = table.getAttribute('data-table');
+        table.classList.add(classNames.booking.selected);
+      });
+    }
+  }
+
   render(element) {
     const thisBooking = this;
     const generatedHTML = templates.bookingWidget();
@@ -144,12 +159,15 @@ class Booking {
     }
     for (let table of thisBooking.dom.tables) {
       let tableId = table.getAttribute(settings.booking.tableIdAttribute);
+      table.classList.remove(classNames.booking.selected);
+      thisBooking.tableSelected = null;
+
       if (!isNaN(tableId)) {
         tableId = parseInt(tableId);
       }
       if (
         !allAvailable &&
-        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId > -1)
+        thisBooking.booked[thisBooking.date][thisBooking.hour].includes(tableId)
       ) {
         table.classList.add(classNames.booking.tableBooked);
       } else {
